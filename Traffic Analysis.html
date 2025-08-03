@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)file:///C:/Users/Sanjana/OneDrive/Desktop/traffic.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Analysis</title>
+    <link rel="stylesheet" href="./Traffic Analysis_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./Traffic Analysis_files/bootstrap-icons.css">
+    <link rel="stylesheet" href="./Traffic Analysis_files/flatpickr.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .hero {
+            background-image: linear-gradient(to bottom, #f7f7f7, #e7e7e7);
+            padding: 100px;
+            text-align: center;
+        }
+        #chart1, #chart2, #chart3 {
+            width: 100%;
+            height: 500px;
+        }
+        #modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+    </style>
+</head>
+<body class="" style="">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="file:///C:/Users/Sanjana/OneDrive/Desktop/traffic.html#">Traffic Analysis</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="file:///C:/Users/Sanjana/OneDrive/Desktop/traffic.html#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="file:///C:/Users/Sanjana/OneDrive/Desktop/traffic.html#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="file:///C:/Users/Sanjana/OneDrive/Desktop/traffic.html#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="hero">
+        <h1>Traffic Analysis</h1>
+        <form id="traffic-form">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="area">Select Area:</label>
+                    <select id="area" name="area">
+                        <option value="Hitech City">Hitech City</option>
+                        <option value="Charminar">Charminar</option>
+                        <option value="Secunderabad">Secunderabad</option>
+                        <option value="Kukatpally">Kukatpally</option>
+                        <option value="Dilsukhnagar">Dilsukhnagar</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="time">Select Time:</label>
+                    <select id="time" name="time">
+                        <option value="01:00">1:00</option>
+                        <option value="02:00">2:00</option>
+                        <option value="03:00">3:00</option>
+                        <option value="04:00">4:00</option>
+                        <option value="05:00">5:00</option>
+                        <option value="06:00">6:00</option>
+                        <option value="07:00">7:00</option>
+                        <option value="08:00">8:00</option>
+                        <option value="09:00">9:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="13:00">1:00</option>
+                        <option value="14:00">2:00</option>
+                        <option value="15:00">3:00</option>
+                        <option value="16:00">4:00</option>
+                        <option value="17:00">5:00</option>
+                        <option value="18:00">6:00</option>
+                        <option value="19:00">7:00</option>
+                        <option value="20:00">8:00</option>
+                        <option value="21:00">9:00</option>
+                        <option value="22:00">10:00</option>
+                        <option value="23:00">11:00</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="date">Select Date:</label>
+                    <input type="text" id="date" name="date" class="flatpickr-date flatpickr-input" placeholder="Select Date" readonly="readonly">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div class="row">
+            <div class="col-md-4">
+                <canvas id="chart1" width="529" height="528" style="display: block; box-sizing: border-box; height: 422.4px; width: 423.2px;"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="chart2" width="529" height="263" style="display: block; box-sizing: border-box; height: 210.4px; width: 423.2px;"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="chart3" width="529" height="263" style="display: block; box-sizing: border-box; height: 210.4px; width: 423.2px;"></canvas>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#trafficModal">
+            View Traffic Prediction
+        </button>
+    </div>
+    <div class="modal fade" id="trafficModal" tabindex="-1" aria-labelledby="trafficModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="trafficModalLabel">Traffic Prediction</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Predicted Traffic Count: <span id="predicted-traffic-count">null</span></p>
+                    <p>Traffic Situation: <span id="traffic-situation">null</span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                </div>
+                <div class="modal-body">
+                    <p id="error-message">All fields are required</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./Traffic Analysis_files/bootstrap.bundle.min.js.download"></script>
+    <script src="./Traffic Analysis_files/chart.min.js.download"></script>
+    <script src="./Traffic Analysis_files/flatpickr.min.js.download"></script>
+    <script>
+        // Sample vehicle distribution data
+        const vehicleDistribution = {
+            labels: ['Cars', 'Trucks', 'Buses', 'Motorcycles'],
+            datasets: [{
+                label: 'Vehicle Distribution',
+                data: [300, 50, 20, 100],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Sample traffic count by weekday data
+        const trafficCountByWeekday = {
+            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            datasets: [{
+                label: 'Traffic Count by Weekday',
+                data: [1000, 1200, 1500, 1800, 2000, 1500, 1000],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Sample weekly traffic count data
+        const weeklyTrafficCount = {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [{
+                label: 'Weekly Traffic Count',
+                data: [5000, 6000, 7000, 8000],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Create the vehicle distribution chart
+        const ctx1 = document.getElementById('chart1').getContext('2d');
+        const chart1 = new Chart(ctx1, {
+            type: 'pie',
+            data: vehicleDistribution,
+            options: {
+                title: {
+                    display: true,
+                    text: 'Vehicle Distribution'
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Create the traffic count by weekday chart
+        const ctx2 = document.getElementById('chart2').getContext('2d');
+        const chart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: trafficCountByWeekday,
+            options: {
+                title: {
+                    display: true,
+                    text: 'Traffic Count by Weekday'
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Create the weekly traffic count chart
+        const ctx3 = document.getElementById('chart3').getContext('2d');
+        const chart3 = new Chart(ctx3, {
+            type: 'line',
+            data: weeklyTrafficCount,
+            options: {
+                title: {
+                    display: true,
+                    text: 'Weekly Traffic Count'
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Initialize flatpickr
+        flatpickr("#date", {
+            dateFormat: "Y-m-d"
+        });
+
+        let previousTime = null;
+
+        // Form submission event handler
+        document.getElementById('traffic-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const area = document.getElementById('area').value;
+            const time = document.getElementById('time').value;
+            const date = document.getElementById('date').value;
+
+            if (area === '' || time === '' || date === '') {
+                const errorModal = new bootstrap.Modal(document.getElementById('errorModal'), {
+                    keyboard: false
+                });
+                document.getElementById('error-message').innerHTML = 'All fields are required';
+                errorModal.show();
+                return;
+            }
+
+            const selectedDate = new Date(date);
+            const currentDate = new Date();
+            if (selectedDate > currentDate) {
+                document.getElementById('predicted-traffic-count').innerText = 'null';
+                document.getElementById('traffic-situation').innerText = 'null';
+                const trafficModal = new bootstrap.Modal(document.getElementById('trafficModal'), {
+                    keyboard: false
+                });
+                trafficModal.show();
+                return;
+            }
+
+            if (previousTime !== time) {
+                // Update charts based on selected values
+                chart1.data.datasets[0].data = [Math.random() * 1000, Math.random() * 1000, Math.random() * 1000, Math.random() * 1000];
+                chart1.update();
+
+                chart2.data.datasets[0].data = [Math.random() * 1000, Math.random() * 1000, Math.random() * 1000, Math.random() * 1000, Math.random() * 1000, Math.random() * 1000, Math.random() * 1000];
+                chart2.update();
+
+                chart3.data.datasets[0].data = [Math.random() * 1000, Math.random() * 1000, Math.random() * 1000, Math.random() * 1000];
+                chart3.update();
+
+                previousTime = time;
+            }
+
+            // Display predicted traffic count and situation in modal
+            const predictedTrafficCount = Math.random() * 10000;
+            const trafficSituation = 'Heavy';
+            document.getElementById('predicted-traffic-count').innerText = predictedTrafficCount;
+            document.getElementById('traffic-situation').innerText = trafficSituation;
+            const trafficModal = new bootstrap.Modal(document.getElementById('trafficModal'), {
+                keyboard: false
+            });
+            trafficModal.show();
+        });
+    </script><div class="flatpickr-calendar animate arrowTop arrowLeft" tabindex="-1" style="top: 243px; left: 1152.31px; right: auto;"><div class="flatpickr-months"><span class="flatpickr-prev-month"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 17 17"><g></g><path d="M5.207 8.471l7.146 7.147-0.707 0.707-7.853-7.854 7.854-7.853 0.707 0.707-7.147 7.146z"></path></svg></span><div class="flatpickr-month"><div class="flatpickr-current-month"><select class="flatpickr-monthDropdown-months" aria-label="Month" tabindex="-1"><option class="flatpickr-monthDropdown-month" value="0" tabindex="-1">January</option><option class="flatpickr-monthDropdown-month" value="1" tabindex="-1">February</option><option class="flatpickr-monthDropdown-month" value="2" tabindex="-1">March</option><option class="flatpickr-monthDropdown-month" value="3" tabindex="-1">April</option><option class="flatpickr-monthDropdown-month" value="4" tabindex="-1">May</option><option class="flatpickr-monthDropdown-month" value="5" tabindex="-1">June</option><option class="flatpickr-monthDropdown-month" value="6" tabindex="-1">July</option><option class="flatpickr-monthDropdown-month" value="7" tabindex="-1">August</option><option class="flatpickr-monthDropdown-month" value="8" tabindex="-1">September</option><option class="flatpickr-monthDropdown-month" value="9" tabindex="-1">October</option><option class="flatpickr-monthDropdown-month" value="10" tabindex="-1">November</option><option class="flatpickr-monthDropdown-month" value="11" tabindex="-1">December</option></select><div class="numInputWrapper"><input class="numInput cur-year" type="number" tabindex="-1" aria-label="Year"><span class="arrowUp"></span><span class="arrowDown"></span></div></div></div><span class="flatpickr-next-month"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 17 17"><g></g><path d="M13.207 8.472l-7.854 7.854-0.707-0.707 7.146-7.146-7.146-7.148 0.707-0.707 7.854 7.854z"></path></svg></span></div><div class="flatpickr-innerContainer"><div class="flatpickr-rContainer"><div class="flatpickr-weekdays"><div class="flatpickr-weekdaycontainer">
+      <span class="flatpickr-weekday">
+        Sun</span><span class="flatpickr-weekday">Mon</span><span class="flatpickr-weekday">Tue</span><span class="flatpickr-weekday">Wed</span><span class="flatpickr-weekday">Thu</span><span class="flatpickr-weekday">Fri</span><span class="flatpickr-weekday">Sat
+      </span>
+      </div></div><div class="flatpickr-days" tabindex="-1"><div class="dayContainer"><span class="flatpickr-day prevMonthDay" aria-label="February 23, 2025" tabindex="-1">23</span><span class="flatpickr-day prevMonthDay" aria-label="February 24, 2025" tabindex="-1">24</span><span class="flatpickr-day prevMonthDay" aria-label="February 25, 2025" tabindex="-1">25</span><span class="flatpickr-day prevMonthDay" aria-label="February 26, 2025" tabindex="-1">26</span><span class="flatpickr-day prevMonthDay" aria-label="February 27, 2025" tabindex="-1">27</span><span class="flatpickr-day prevMonthDay" aria-label="February 28, 2025" tabindex="-1">28</span><span class="flatpickr-day" aria-label="March 1, 2025" tabindex="-1">1</span><span class="flatpickr-day" aria-label="March 2, 2025" tabindex="-1">2</span><span class="flatpickr-day" aria-label="March 3, 2025" tabindex="-1">3</span><span class="flatpickr-day" aria-label="March 4, 2025" tabindex="-1">4</span><span class="flatpickr-day" aria-label="March 5, 2025" tabindex="-1">5</span><span class="flatpickr-day" aria-label="March 6, 2025" tabindex="-1">6</span><span class="flatpickr-day" aria-label="March 7, 2025" tabindex="-1">7</span><span class="flatpickr-day" aria-label="March 8, 2025" tabindex="-1">8</span><span class="flatpickr-day" aria-label="March 9, 2025" tabindex="-1">9</span><span class="flatpickr-day" aria-label="March 10, 2025" tabindex="-1">10</span><span class="flatpickr-day" aria-label="March 11, 2025" tabindex="-1">11</span><span class="flatpickr-day" aria-label="March 12, 2025" tabindex="-1">12</span><span class="flatpickr-day" aria-label="March 13, 2025" tabindex="-1">13</span><span class="flatpickr-day" aria-label="March 14, 2025" tabindex="-1">14</span><span class="flatpickr-day" aria-label="March 15, 2025" tabindex="-1">15</span><span class="flatpickr-day" aria-label="March 16, 2025" tabindex="-1">16</span><span class="flatpickr-day" aria-label="March 17, 2025" tabindex="-1">17</span><span class="flatpickr-day today" aria-label="March 18, 2025" aria-current="date" tabindex="-1">18</span><span class="flatpickr-day selected" aria-label="March 19, 2025" tabindex="-1">19</span><span class="flatpickr-day" aria-label="March 20, 2025" tabindex="-1">20</span><span class="flatpickr-day" aria-label="March 21, 2025" tabindex="-1">21</span><span class="flatpickr-day" aria-label="March 22, 2025" tabindex="-1">22</span><span class="flatpickr-day" aria-label="March 23, 2025" tabindex="-1">23</span><span class="flatpickr-day" aria-label="March 24, 2025" tabindex="-1">24</span><span class="flatpickr-day" aria-label="March 25, 2025" tabindex="-1">25</span><span class="flatpickr-day" aria-label="March 26, 2025" tabindex="-1">26</span><span class="flatpickr-day" aria-label="March 27, 2025" tabindex="-1">27</span><span class="flatpickr-day" aria-label="March 28, 2025" tabindex="-1">28</span><span class="flatpickr-day" aria-label="March 29, 2025" tabindex="-1">29</span><span class="flatpickr-day" aria-label="March 30, 2025" tabindex="-1">30</span><span class="flatpickr-day" aria-label="March 31, 2025" tabindex="-1">31</span><span class="flatpickr-day nextMonthDay" aria-label="April 1, 2025" tabindex="-1">1</span><span class="flatpickr-day nextMonthDay" aria-label="April 2, 2025" tabindex="-1">2</span><span class="flatpickr-day nextMonthDay" aria-label="April 3, 2025" tabindex="-1">3</span><span class="flatpickr-day nextMonthDay" aria-label="April 4, 2025" tabindex="-1">4</span><span class="flatpickr-day nextMonthDay" aria-label="April 5, 2025" tabindex="-1">5</span></div></div></div></div></div>
+
+</body></html>
